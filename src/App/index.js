@@ -22,8 +22,8 @@ function App() {
          <AuthorCard
          key={authorInfo.firebaseKey}
          firebaseKey={authorInfo.firebaseKey}
-         firstName={authorInfo.first_name}
-         lastName={authorInfo.last_name}
+         firstName={authorInfo.firstName}
+         lastName={authorInfo.lastName}
          email={authorInfo.email}
          setAuthors={setAuthors}
          />

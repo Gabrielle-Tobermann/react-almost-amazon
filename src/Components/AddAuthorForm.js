@@ -4,7 +4,12 @@ import { createAuthors, updateAuthor } from '../helpers/data/authorData';
 
 const AddAuthorForm = (
   {
-    setAuthors, firstName, lastName, email, favorite, firebaseKey
+    setAuthors,
+    firstName,
+    lastName,
+    email,
+    favorite,
+    firebaseKey
   }
 ) => {
   const [author, setAuthor] = useState({
@@ -25,9 +30,11 @@ const AddAuthorForm = (
   const handleSubmit = (e) => {
     e.preventDefault();
     if (author.firebaseKey) {
-      updateAuthor(author).then((authorArray) => setAuthors(authorArray));
+      updateAuthor(author).then((authorArray) => console.warn(authorArray));
+    } else {
+      createAuthors(author).then((authorArray) => console.warn(authorArray));
+      console.warn(setAuthors);
     }
-    createAuthors(author).then((authorArray) => setAuthors(authorArray));
   };
 
   return (
@@ -41,18 +48,18 @@ const AddAuthorForm = (
          <h2>New Author</h2>
          <label>First Name:</label>
          <input
-         name='first_name'
+         name='firstName'
          type='text'
          placeholder='First Name'
-         value={author.first_name}
+         value={author.firstName}
          onChange={handleInputChange}
          ></input>
            <label>Last Name:</label>
          <input
-         name='last_name'
+         name='lastName'
          type='text'
          placeholder='Last Name'
-         value={author.last_name}
+         value={author.lastName}
          onChange={handleInputChange}
          ></input>
           <label>Email:</label>
