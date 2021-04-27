@@ -21,10 +21,11 @@ function App() {
       {authors.map((authorInfo) => (
          <AuthorCard
          key={authorInfo.firebaseKey}
+         firebaseKey={authorInfo.firebaseKey}
          firstName={authorInfo.first_name}
          lastName={authorInfo.last_name}
          email={authorInfo.email}
-         handleClick={() => console.warn(`${authorInfo.email}`)}
+         setAuthors={setAuthors}
          />
       ))}
     </div>

@@ -1,12 +1,18 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { createAuthors } from '../helpers/data/authorData';
+import { createAuthors, updateAuthor } from '../helpers/data/authorData';
 
-export default function AddAuthorForm() {
+const AddAuthorForm = (
+  {
+    setAuthors, firstName, lastName, email, favorite, firebaseKey
+  }
+) => {
   const [author, setAuthor] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    favorite: false
+    firstName: firstName || '',
+    lastName: lastName || '',
+    email: email || '',
+    favorite: favorite || false,
+    firebaseKey: firebaseKey || null
   });
 
   const handleInputChange = (e) => {
@@ -18,7 +24,10 @@ export default function AddAuthorForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createAuthors(author);
+    if (author.firebaseKey) {
+      updateAuthor(author).then((authorArray) => setAuthors(authorArray));
+    }
+    createAuthors(author).then((authorArray) => setAuthors(authorArray));
   };
 
   return (
@@ -66,4 +75,15 @@ export default function AddAuthorForm() {
     </div>
     </>
   );
-}
+};
+
+AddAuthorForm.propTypes = {
+  setAuthors: PropTypes.func,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  email: PropTypes.string,
+  favorite: PropTypes.bool,
+  firebaseKey: PropTypes.string
+};
+
+export default AddAuthorForm;
