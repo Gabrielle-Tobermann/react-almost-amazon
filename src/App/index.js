@@ -17,7 +17,9 @@ function App() {
 
   return (
     <div className='App'>
-      <AddAuthorForm/>
+      <AddAuthorForm
+      setAuthors={setAuthors}
+      />
       {authors.map((authorInfo) => (
          <AuthorCard
          key={authorInfo.firebaseKey}

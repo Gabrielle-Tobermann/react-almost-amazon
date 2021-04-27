@@ -30,10 +30,9 @@ const AddAuthorForm = (
   const handleSubmit = (e) => {
     e.preventDefault();
     if (author.firebaseKey) {
-      updateAuthor(author).then((authorArray) => console.warn(authorArray));
+      updateAuthor(author).then((authorArray) => setAuthors(authorArray));
     } else {
-      createAuthors(author).then((authorArray) => console.warn(authorArray));
-      console.warn(setAuthors);
+      createAuthors(author).then((authorArray) => setAuthors(authorArray));
     }
   };
 
@@ -85,7 +84,7 @@ const AddAuthorForm = (
 };
 
 AddAuthorForm.propTypes = {
-  setAuthors: PropTypes.func,
+  setAuthors: PropTypes.func.isRequired,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   email: PropTypes.string,
