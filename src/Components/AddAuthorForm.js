@@ -1,12 +1,23 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { createAuthors } from '../helpers/data/authorData';
+import { createAuthors, updateAuthor } from '../helpers/data/authorData';
 
-export default function AddAuthorForm() {
+const AddAuthorForm = (
+  {
+    setAuthors,
+    firstName,
+    lastName,
+    email,
+    favorite,
+    firebaseKey
+  }
+) => {
   const [author, setAuthor] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    favorite: false
+    firstName: firstName || '',
+    lastName: lastName || '',
+    email: email || '',
+    favorite: favorite || false,
+    firebaseKey: firebaseKey || null
   });
 
   const handleInputChange = (e) => {
@@ -18,7 +29,11 @@ export default function AddAuthorForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createAuthors(author);
+    if (author.firebaseKey) {
+      updateAuthor(author).then((authorArray) => setAuthors(authorArray));
+    } else {
+      createAuthors(author).then((authorArray) => setAuthors(authorArray));
+    }
   };
 
   return (
@@ -32,18 +47,18 @@ export default function AddAuthorForm() {
          <h2>New Author</h2>
          <label>First Name:</label>
          <input
-         name='first_name'
+         name='firstName'
          type='text'
          placeholder='First Name'
-         value={author.first_name}
+         value={author.firstName}
          onChange={handleInputChange}
          ></input>
            <label>Last Name:</label>
          <input
-         name='last_name'
+         name='lastName'
          type='text'
          placeholder='Last Name'
-         value={author.last_name}
+         value={author.lastName}
          onChange={handleInputChange}
          ></input>
           <label>Email:</label>
@@ -66,4 +81,15 @@ export default function AddAuthorForm() {
     </div>
     </>
   );
-}
+};
+
+AddAuthorForm.propTypes = {
+  setAuthors: PropTypes.func.isRequired,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  email: PropTypes.string,
+  favorite: PropTypes.bool,
+  firebaseKey: PropTypes.string
+};
+
+export default AddAuthorForm;
