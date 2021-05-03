@@ -6,6 +6,7 @@ import {
   Button
 } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { deleteAuthors } from '../helpers/data/authorData';
 import AddAuthorForm from './AddAuthorForm';
 
@@ -17,6 +18,7 @@ const AuthorCard = ({
   firebaseKey
 }) => {
   const [editing, setEditing] = useState(false);
+  const history = useHistory();
   const handleClick = (type) => {
     switch (type) {
       case 'delete':
@@ -24,6 +26,9 @@ const AuthorCard = ({
         break;
       case 'edit':
         setEditing((prevState) => !prevState);
+        break;
+      case 'view':
+        history.push(`/authors/${firebaseKey}`);
         break;
       default:
         console.warn('nothing selected');
@@ -34,8 +39,9 @@ const AuthorCard = ({
   <Card body>
   <CardTitle tag="h5">Name: {firstName} {lastName}</CardTitle>
   <CardText>Email: {email}</CardText>
-  <Button onClick={() => handleClick('delete')}>Delete Author</Button>
-  <Button onClick={() => handleClick('edit')}>{editing ? 'Close form' : 'Edit Author'}</Button>
+  <Button color="danger" onClick={() => handleClick('delete')}>Delete Author</Button>
+  <Button color="warning" onClick={() => handleClick('view')}>View Author</Button>
+  <Button color="info" onClick={() => handleClick('edit')}>{editing ? 'Close form' : 'Edit Author'}</Button>
   {
     editing && <AddAuthorForm
     firstName= {firstName}
